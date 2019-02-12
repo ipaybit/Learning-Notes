@@ -1,0 +1,160 @@
+一、本地的项目上传到github步骤
+开始建立本地库
+1.cd到目标文件夹。
+2.git init （在本机上想要创建一个新的git仓库）。
+3.git commit -m “firstCommit”
+4.git push origin master（git push -u origin master） 或 git push -f origin master 强制提交
+5.git pull （上传add的代码）
+
+二、在第一次创建之后的提交
+1、更新
+git pull origin //在提交之前先合并代码
+2、提交
+git add .   //添加
+git commit -m 'modify'   //修改''中添加注释
+git push -u origin master //提交修改的文件
+
+docker 使用学习
+使用Docker
+容器的基操
+启动一次操作容器：docker run IMAGE_NAME [COMMAND] [ARG…]
+
+$ docker run ubuntu echo 'hello world'
+
+启动交互式容器：docker run -t -i –name=自定义名称 IMAGE_NAME /bin/bash
+
+-i –interactive=true | false，默认是false
+
+-t –tty=true | false，默认是false
+
+–name 给启动的容器自定义名称，方便后续的容器选择操作
+
+启动交互式的容器，就是类似虚拟机、云主机的操作方式，操作完一个命令后仍然可以继续：
+
+docker run -i -t ubuntu /bin/bash
+
+查看容器：docker ps [-a] [-l]
+
+省略 列出正在运行的容器
+
+-a all 列出所有容器
+
+-l latest 列出最近的容器
+
+docker ps -a
+
+查看指定容器：docker inspect name | id
+
+name指代具体的容器名称，id则是容器的唯一id标识。inspect命令可以详细的展示出容器的具体信息。
+
+docker inspect haha
+重新启动停止的容器：docker start [-i] 容器名
+
+实际使用时，没必要每次都重新启动一个新的容器，我们可以重新启动之前创建的容器，现实情况也需要我们这样使用。
+
+docker start -i haha
+
+删除停止的容器：docker rm name | id
+
+docker rm thirsty_kepler
+docker rm upbeat_albattani
+
+守护式容器
+交互式容器在运行完命令退出后即停止，而实际中我们常常需要能够长时间运行，即使退出也能后台运行的容器，而守护式容器具备这一功能。守护式容器具有：
+
+能够长期运行；
+没有交互式会话；
+适合于运行应用程序和服务。
+以守护形式运行容器
+
+我们执行完需要的操作退出容器时，不要使用exit退出，可以利用Ctrl+P Ctrl+Q代替，以守护式形式推出容器。
+附加到运行中的容器
+
+退出正在运行的容器，想要再次进入，需要使用attach命令：docker attach name | id
+
+docker attach haha
+启动守护式容器
+
+启动守护式容器，可以在后台为我们执行操作：docker run -d IMAGE_NAME [COMMAND] [ARG…]
+
+当命令在后台执行完毕，容器还是会关闭。这里防止容器立刻退出，写一个脚本循环输出“hello world”。
+
+docker run --name hiahia -d ubuntu /bin/sh -c "while true; do echo hello world; sleep 1; done"
+查看容器日志
+
+当守护式容器在后台运行时，我们可以利用docker的日志命令查看其输出：docker logs [-f] [-t] [–tail] IMAGE_NAME
+
+-f –follows=true | false，默认是false，显示更新
+
+-t –timestamps=true | false，默认是false，显示时间戳
+
+–tail=“all” | 行数，显示最新行数的日志
+
+docker logs haha -tail 0 -tf
+查看容器内进程
+
+对运行的容器查看其进程：docker top IMAGE_NAME
+
+docker top haha
+运行中容器启动新进程
+
+Docker的理念是一个容器运行一个服务，但是往往需要对一个服务进行监控，所以也需要在已经运行服务的容器启动新的进程：docker exec [-d] [-i] [-t] IMAGE_NAME [COMMAND] [ARG…]
+
+docker exec -i -t hiahia /bin/bash
+
+停止守护式容器
+
+发送信号停止容器：docker stop 容器名
+
+强制停止：docker kill 容器名
+
+VI. 案例：在容器中部署静态网站
+容器的端口映射
+命令：run [-P] [-p]
+
+-P，–publish-all=true | false，大写的P表示为容器暴露的所有端口进行映射；
+
+-p，–publish=[]，小写的p表示为容器指定的端口进行映射，有四种形式：
+
+containerPort：只指定容器的端口，宿主机端口随机映射；
+hostPort:containerPort：同时指定容器与宿主机端口一一映射；
+ip::containerPort：指定ip和容器的端口；
+ip:hostPort:containerPort：指定ip、宿主机端口以及容器端口。
+例如：
+
+docker run -p 80 -i -t ubuntu /bin/bash
+docker run -p 8080:80 -i -t ubuntu /bin/bash
+docker run -p 0.0.0.0::80 -i -t ubuntu /bin/bash
+docker run -p 0.0.0.0:8080:80 -i -t ubuntu /bin/bash
+
+容器中部署Nginx服务
+准备环境：
+
+# 1. 创建映射80端口的交互式容器
+docker run -p 80 --name web -i -t ubuntu /bin/bash
+# 2. 更新源
+apt-get update
+# 3. 安装Nginx
+apt-get install -y nginx
+# 4. 安装Vim
+apt-get install -y vim
+
+2. Install and use Vatic
+reference: vatic-docker
+
+Step1: Create “data” folder in the directory where you want to run.
+
+Step2: Create “labels.txt” file in data folder. Put all the object types that you want to label on the first line separated by spaces.
+
+Step3: Create “videos_in” folder in data folder, and put in the video you want to label.
+
+Step4: Run the vatic in docker:
+
+sudo docker run -it -p 8111:80 -v $PWD/data:/root/vatic/data npsvisionlab/vatic-docker /bin/bash -C /root/vatic/example.sh
+8111 is the port. We can change it when needed.
+
+Step5: Annotation
+
+Open the browser, type:
+
+<Your IP address>:8111/directory
