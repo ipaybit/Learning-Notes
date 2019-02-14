@@ -1,0 +1,42 @@
+Docker 配置前端开发环境实战
+* 用端口映射预览 Docker 里的网页  （-p 8080:8080）
+* 用挂载数据卷的方式映射本地文件  (-v 本地文件路径:容器路径)
+*  配置一个通用的 Image（镜像）用 Kitematic 客户端实现跨平台运行 Docker
+二、docker几个基本概念
+
+Docker 中最重要的三个概念是 Container（容器）、Image（镜像）和 Volume（卷）。
+Image 是静态内容，如果你要把某个 Image 跑起来，那就需要一个Container。
+
+这里面有一点很重要：**Container 中所做的改动不会保存到Image**。
+
+举个例子，你跑起来一个 Ubuntu Image，然后 touch newfile创建一个新文件，这时候如果直接重启 Container，文件就没了。
+那怎么保存改动？
+很简单，执行docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]] 即可。
+这里的 commit 和 git commit 类似，执行之后会把当前状态保存为一个新 Image。
+
+简单来说，Volume 就是专门存放数据的文件夹，启动 Image 时可以通过 `-v 本地目录:容器目录` 
+映射本地路径到容器，一个容器可以挂载一个或多个 Volume，Volume 中的数据独立于 Image，
+**重启不会丢失**。
+我们创建一个 Volume，挂载到系统的一个目录下，然后把代码都放进去就可以了。
+
+Container 的问题非常相似，只不过我们自己变成了“同事”，需要访问      
+Docker 内部的网页。只需要在运行容器时，通过-p 如:`-p 8080:8080` 添加  
+端口映射然后在本机的浏览器上观察即可。
+
+
+三、动手搭建自己的开发环境
+
+目标：配置一个通用 Image，支持预览网页，项目文件可以在容器中开发又可以在本机上用版本管理软件管理(如:git)，预装开发过程中可能用到的包。
+
+过程：
+1. 下载并安装 Docker Toolbox
+2. 下载并运行 Ubuntu 镜像
+3. 做常规的linux系统初始化工作（换源、安装常用的linux工具）
+4. 安装前端开发工具
+5. 导出镜像
+
+docker 使用
+docker run ubuntu:15.10 /bin/echo "Hello world"
+
+解释为：Docker 以 ubuntu15.10 镜像创建一个新容器，然后在容器里执行 bin/echo "Hello world"，然后输出结果。
+
