@@ -1,0 +1,11 @@
+在本章中，我们一起来学习下TensorFlow。我们将会学习到TensorFlow的一些基本库。通过计算一个线性函数来熟悉这些库。最后还学习使用TensorFlow搭建一个神经网络来识别手势。本章用到的一些库在这里下载。
+
+TensorFlow的基本库
+首先是导入所需的库，其中最重要的库就是tensorflow的，我们给它一个别名tf。
+
+import math
+import numpy as np
+import h5py
+import tensorflow as tf
+from tensorflow.python.framework import ops
+from tf_utils import load_dataset, random_mini_batches, convert_to_one_hot, predict
