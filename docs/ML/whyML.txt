@@ -1,0 +1,84 @@
+机器学习的三个利基：
+
+数据挖掘：使用历史数据改进决策
+
+病历！医学知识
+
+我们不能手工编程的软件应用程序
+
+自动驾驶
+
+语音识别
+
+自定义程序
+
+了解用户兴趣的新闻阅读器
+
+今天：冰山一角
+
+第一代算法：神经网络，
+
+决策树，回归…
+
+应用于格式良好的数据库
+
+萌芽产业
+
+明天的机遇：巨大的影响
+
+全面了解混合媒体数据
+
+跨多个内部数据库以及Web和新闻源学习
+
+通过主动实验学习
+
+学习决策而不是预测
+
+累积终身学习
+
+嵌入学习的编程语言？
+
+相关专业
+
+人工智能
+
+贝叶斯方法
+
+计算复杂性理论
+
+控制理论
+
+信息论
+
+哲学
+
+心理学和神经生物学
+
+统计
+
+Some Issues in Machine Learning
+ What algorithms can approximate functions well (and when)?
+ How does number of training examples inuence accuracy?
+ How does complexity of hypothesis representation impact it?
+ How does noisy data inuence accuracy?
+ What are the theoretical limits of learnability?
+ How can prior knowledge of learner help?
+ What clues can we get from biological learning systems?
+ How can systems alter their own representations?
+机器学习中的一些问题
+
+什么算法可以很好地近似函数（以及何时）？
+
+培训实例数量如何准确？
+
+假设表示的复杂性如何影响它？
+
+噪声数据的使用精度如何？
+
+学习能力的理论极限是什么？
+
+学习者的先验知识如何帮助？
+
+我们能从生物学习系统中得到什么线索？
+
+系统如何改变自己的表示？

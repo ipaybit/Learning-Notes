@@ -1,0 +1,67 @@
+Python 文件I/O
+本章只讲述所有基本的的I/O函数，更多函数请参考Python标准文档。
+读取键盘输入
+Python提供了两个内置函数从标准输入读入一行文本，默认的标准输入是键盘。如下：
+
+raw_input
+input
+raw_input函数
+raw_input([prompt]) 函数从标准输入读取一个行，并返回一个字符串（去掉结尾的换行符）
+打开和关闭文件
+现在，您已经可以向标准输入和输出进行读写。现在，来看看怎么读写实际的数据文件。
+
+Python 提供了必要的函数和方法进行默认情况下的文件基本操作。你可以用 file 对象做大部分的文件操作。
+
+open 函数
+你必须先用Python内置的open()函数打开一个文件，创建一个file对象，相关的方法才可以调用它进行读写。
+
+语法：
+
+file object = open(file_name [, access_mode][, buffering])
+
+Python里的目录：
+所有文件都包含在各个不同的目录下，不过Python也能轻松处理。os模块有许多方法能帮你创建，删除和更改目录。
+
+mkdir()方法
+可以使用os模块的mkdir()方法在当前目录下创建新的目录们。你需要提供一个包含了要创建的目录名称的参数。
+
+语法：
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import os
+
+# 创建目录test
+os.mkdir("test")
+
+Python 异常处理
+python提供了两个非常重要的功能来处理python程序在运行中出现的异常和错误。你可以使用该功能来调试python程序。
+
+异常处理: 本站Python教程会具体介绍。
+断言(Assertions):本站Python教程会具体介绍。
+什么是异常？
+异常即是一个事件，该事件会在程序执行过程中发生，影响了程序的正常执行。
+
+一般情况下，在Python无法正常处理程序时就会发生一个异常。
+
+异常是Python对象，表示一个错误。
+
+当Python脚本发生异常时我们需要捕获处理它，否则程序会终止执行。
+
+try-finally 语句
+try-finally 语句无论是否发生异常都将执行最后的代码。
+
+异常的参数
+一个异常可以带上参数，可作为输出的异常信息参数。
+
+你可以通过except语句来捕获异常的参数，
+
+触发异常
+我们可以使用raise语句自己触发异常
+def functionName( level ):
+    if level < 1:
+        raise Exception("Invalid level!", level)
+        # 触发异常后，后面的代码就不会再执行
+
+比较序列和其它类型 Comparing Sequences and Other Types
+需要注意的是不同类型的对象比较是合法的。输出结果是确定而非任意的：类型按它们的名字排序。因而，一个链表（list）总是小于一个字符串（string），一个字符串（string）总是小于一个元组（tuple）等等。数值类型比较时会统一它们的数据类型，所以0等于0.0

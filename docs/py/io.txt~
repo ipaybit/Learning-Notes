@@ -1,0 +1,53 @@
+7. 输入和输出 Input and Output
+有几种方法可以表现程序的输出结果；数据可以用可读的结构打印，也可以写入文件供以后使用。本章将会讨论几种可行的做法。
+
+7.1 设计输出格式 Fancier Output Formatting
+我们有两种大相径庭的输出值方法：
+        表达式语句和 print 语句。
+       （第三种访求是使用文件对象的 write() 方法，标准文件输出可以参考 sys.stdout。详细内容参见库参考手册。）
+
+读写文件 Reading and Writing Files
+
+open() returns a file object, and is most commonly used with two arguments: "open(filename, mode)".
+
+open() 返回一个文件，通常的用法需要两个参数： "open(filename, mode)"。
+
+7.2.1 文件对象（file object）的方法 Methods of File Objects
+
+The rest of the examples in this section will assume that a file object called f has already been created.
+
+本节中的示例都默认文件对象 f 已经创建。
+
+>>> f.read()
+'This is the entire file.\n'
+>>> f.read()
+''
+f.readline()从文件中读取单独一行，字符串结尾会自动加上一个换行符，只有当文件最后一行没有以换行符结尾时，这一操作才会被忽略。这样返回值就不会有什么混淆不清，如果如果 f.readline()返回一个空字符串，那就表示到达了文件末尾，如果是一个空行，就会描述为'\n´ ，一个只包含换行符的字符串。
+
+>>> f.readline()
+'This is the first line of the file.\n'
+>>> f.readline()
+'Second line of the file\n'
+>>> f.readline()
+''
+类 Classes
+Python 在尽可能不增加新的语法和语义的情况下加入了类机制。这种机制是 C++ 和 Modula-3 的混合。Python中的类没有在用户和定义之间建立一个绝对的屏障，而是依赖于用户自觉的不去“破坏定义”。然而，类机制最重要的功能都完整的保留下来。类继承机制允许多继承，派生类可以覆盖（override）基类中的任何方法，方法中可以调用基类中的同名方法。对象可以包含任意数量的私有成员。
+用 C++ 术语来讲，所有的类成员（包括数据成员）都是公有（ public ）的，所有的成员函数都是虚拟（ virtual ）的。没有特定的构造和析构函数。用Modula-3的术语来讲，在成员方法中没有什么简便的方式（shorthands）可以引用对象的成员：方法函数在定义时需要以引用的对象做为第一个参数，调用时则会隐式引用对象。这样就形成了语义上的引入和重命名。（ This provides semantics for importing and renaming. ）但是，像 C++ 而非 Modula-3 中那样，大多数带有特殊语法的内置操作符（算法运算符、下标等）都可以针对类的需要重新定义。
+
+有关术语的话题 A Word About Terminology
+由于没有什么关于类的通用术语，我从 Smalltalk 和 C++ 中借用一些（我更希望用 Modula-3 的，因为它的面向对象机制比 C++更接近Python，不过我想没多少读者听说过它）。
+我要提醒读者，这里有一个面向对象方面的术语陷阱，在 Python 中“对象”这个词不一定指类实例。Python 中并非所有的类型都是类：例如整型、链表这些内置数据类型就不是，甚至某些像文件这样的外部类型也不是，这一点类似于 C++ 和 Modula-3，而不像 Smalltalk。然而，所有的 Python 类型在语义上都有一点相同之处：描述它们的最贴切词语是“对象”。
+
+对象是被特化的，多个名字（在多个作用域中）可以绑定同一个对象。这相当于其它语言中的别名。通常对 Python 的第一印象中会忽略这一点，使用那些不可变的基本类型（数值、字符串、元组）时也可以很放心的忽视它。然而，在 Python 代码调用字典、链表之类可变对象，以及大多数涉及程序外部实体（文件、窗体等等）的类型时，这一语义就会有影响。这通用有助于优化程序，因为别名的行为在某些方面类似于指针。例如，很容易传递一个对象，因为在行为上只是传递了一个指针。如果函数修改了一个通过参数传递的对象，调用者可以接收到变化－－在 Pascal 中这需要两个不同的参数传递机制。
+
+Python 作用域和命名空间 Python Scopes and Name Spaces
+
+Before introducing classes, I first have to tell you something about Python's scope rules. Class definitions play some neat tricks with namespaces, and you need to know how scopes and namespaces work to fully understand what's going on. Incidentally, knowledge about this subject is useful for any advanced Python programmer.
+
+在介绍类之前，我首先介绍一些有关 Python 作用域的规则：类的定义非常巧妙的运用了命名空间，要完全理解接下来的知识，需要先理解作用域和命名空间的工作原理。另外，这一切的知识对于任何高级 Python 程序员都非常有用。
+
+命名空间是从命名到对象的映射。当前命名空间主要是通过 Python 字典实现的，不过通常不关心具体的实现方式（除非出于性能考虑），以后也有可能会改变其实现方式。以下有一些命名空间的例子：内置命名（像 <#2558#>abs() 这样的函数，以及内置异常名）集，模块中的全局命名，函数调用中的局部命名。某种意义上讲对象的属性集也是一个命名空间。关于命名空间需要了解的一件很重要的事就是不同命名空间中的命名没有任何联系，例如两个不同的模块可能都会定义一个名为“maximize”的函数而不会发生混淆－－用户必须以模块名为前缀来引用它们。
+我称 Python 中任何一个“.”之后的命名为属性－－例如，表达式 z.real 中的 real 是对象 z 的一个属性。严格来讲，从模块中引用命名是引用属性：表达式 modname.funcname 中， modname 是一个模块对象，funcname 是它的一个属性。因此，模块的属性和模块中的全局命名有直接的映射关系：它们共享同一命名空间
+当函数被调用时创建一个局部命名空间，函数反正返回过抛出一个未在函数内处理的异常时删除。（实际上，说是遗忘更为贴切）。当然，每一个递归调用拥有自己的命名空间。
+
+

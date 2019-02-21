@@ -1,0 +1,15 @@
+#!/usr/bin/python
+import time
+
+print ("time.time(): %f " %  time.time())
+print (time.localtime( time.time() ))
+print (time.asctime( time.localtime(time.time()) ))
+
+class Networkerror(RuntimeError):
+    def __init__(self, arg):
+        self.args = arg
+
+try:
+    raise Networkerror("Bad hostname")
+except Networkerror,e:
+    print e.args

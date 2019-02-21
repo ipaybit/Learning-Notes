@@ -1,0 +1,2 @@
+python基础知识学习；
+python项目练习
