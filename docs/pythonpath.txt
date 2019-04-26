@@ -1,0 +1,45 @@
+我们可以通过图形化界面方便简单的完成虚拟环境创建和包管理，也可以通过控制台命令完成。Anaconda提供了一个强大的conda工具，用以包管理和环境管理，包管理与pip类似；环境管理则与许多第三方虚拟环境管理包工具类似。这里主要介绍利用控制台conda工具管理虚拟环境。
+
+# 创建虚拟环境
+conda create --name test python=3.6 
+1
+2
+通过以上命令就成功创建了名为test的python3.6虚拟环境，这里python版本可以随意指定，不需要是本机安装了的python版本，因为Anaconda会自动联网下载对应的python版本。这个环境完全与本机已经安装的python环境隔离，接下来我们就可以激活进入这个环境，进行第三方包的安装等。
+
+# 激活环境
+activate test    # windows
+1
+2
+退出当前环境也同样简单
+
+# 退出当前环境
+deactivate   # windows
+1
+2
+删除创建的虚拟环境
+
+# 删除虚拟环境
+conda remove --name test --all
+1
+2
+
+--------------------- 
+作者：zxhohai 
+来源：CSDN 
+原文：https://blog.csdn.net/hohaizx/article/details/78375238 
+版权声明：本文为博主原创文章，转载请附上博文链接！
+
+conda的使用
+1.查看已经安装的包
+conda list
+ 
+
+2.查看可用软件包
+conda search
+3.在 conda 环境中安装 Jupyter notebook，请使用:
+conda install jupyter notebook
+4.也可以通过 pip 来获得 Jupyter notebook
+pip install jupyter notebook 
+5.在终端或控制台中输入
+jupyter notebook
+

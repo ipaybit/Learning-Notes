@@ -1,0 +1,21 @@
+Python for 循环语句
+Python for循环可以遍历任何序列的项目，如一个列表或者一个字符串。
+
+语法：
+
+for循环的语法格式如下：
+
+for iterating_var in sequence:
+   statements(s)
+
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+for letter in 'Python':     # 第一个实例
+   print '当前字母 :', letter
+ 
+fruits = ['banana', 'apple',  'mango']
+for fruit in fruits:        # 第二个实例
+   print '当前水果 :', fruit
+ 
+print "Good bye!"

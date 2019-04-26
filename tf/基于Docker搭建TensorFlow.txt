@@ -1,0 +1,101 @@
+基于 Docker 搭建 TensorFlow 开发环境
+TensorFlow 目前可支持如下几种方式安装：
+
+Virtualenv
+Pip
+Docker
+Anaconda
+从源代码安装
+
+Docker 入门指南
+Docker 是?
+属于 Linux 容器的一种封装，提供简单易用的容器使用接口。它是目前最流行的 Linux 容器解决方案。
+Docker 将应用程序与该程序的依赖，打包在一个文件里面。运行这个文件，就会生成一个虚拟容器。程序在这个虚拟容器里运行，就好像在真实的物理机上运行一样。有了 Docker，就不用担心环境问题。总体来说，Docker 的接口相当简单，用户可以方便地创建和使用容器，把自己的应用放入容器。容器还可以进行版本管理、复制、分享、修改，就像管理普通的代码一样。
+Docker 通过 Docker Engine 运行在操作系统 OS 上，虚拟机运行在硬件资源上。
+
+docker 在部署过程中，将安装，配置等重复的部分自动化完成。只需要在第一次部署时，构建完可用的 docker 镜像（装好集装箱），在以后使用中，短短的几行命令就可以直接拉取镜像，根据这个镜像创建出一个容器，把服务跑起来了。所需要的仅仅是安装了 docker 的服务器，一个 Dockerfile 文件（装箱清单），以及比较流畅的网络而已，真可谓『一次构建，到处部署』
+
+Docker 的主要用途，目前有三大类。
+
+提供一次性的环境。比如，本地测试他人的软件、持续集成的时候提供单元测试和构建的环境。
+提供弹性的云服务。因为 Docker 容器可以随开随关，很适合动态扩容和缩容。
+组建微服务架构。通过多个容器，一台机器可以跑多个服务，因此在本机就可以模拟出微服务架构。
+docker 系统使用了 C/S 的架构，docker client 通过 REST API 请求 docker daemon 来管理 docker 的镜像和容器等。Server 端驻守在后台，称之为 docker daemon。Client 端是一个 CLI 程序，可以在命令行中通过 docker 这个二进制文件进行交互。
+
+安装 Docker
+两个版本：社区版（Community Edition，缩写为 CE）和企业版
+Docker Registry
+Docker 远程镜像仓库：
+
+DockerHub：https://hub.docker.com/
+DaoCloud：https://hub.daocloud.io/
+Aliyun：https://dev.aliyun.com/search...
+
+Docker Image
+Docker Image(镜像) 是用来创建 docker Container(容器) 的只读模版，其中包含了容器启动所需要的所有配置信息和运行程序，一次构建之后可以多次复用。
+image 相关的命令:
+docker image ls
+docker image rm [imageName]
+在 MacOS 下，Docker images 保存在哪个路径下？
+/Users/{YourUserName}/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/
+
+Docker Container
+Docker Container(容器) 中包含了我们的应用代码和代码执行的环境，是用来打包分发代码的单元。image 文件生成的容器实例，本身也是一个文件，称为容器文件。
+
+Docker container 
+docker container ls 或 docker ps
+docker container ls -a
+docker container stop webserver
+docker rm container_name /containerid 
+docker start/stop container_name /containerid
+docker exec -it container_name /bin/bash
+
+创建容器来执行应用代码，具体使用到run命令
+docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+
+
+例如：
+docker run -d -p 80:80 --name webserver nginx
+
+Dockerfile
+Dockerfile 是用来说明如何自动构建 docker image 的指令集文件，在 Dockerfile 中编写好指令集之后，我们就可以通过 docker build 命令构建镜像，Dockerfile 文件中命令的顺序就是构建过程中执行的顺序。
+
+以下为几个常用的指令：
+
+FROM：依赖镜像，所有 Dockerfile 都必须以 FROM 命令开始，表示其依赖的镜像。
+
+FROM image_name
+RUN：在 shell 或者 exec 的环境下执行的命令
+
+RUN <command>
+ADD：将主机文件复制到容器中
+
+ADD /path/to/sourcefile/in/host /path/to/targetfile/in/container
+CMD：指定容器启动默认执行的命令
+
+CMD ["executable","param1","param2"]
+EXPOSE：指定容器在运行时监听的端口
+
+EXPOSE <port>
+WORKDIR：指定 RUN、CMD 与 ENTRYPOINT 命令的工作目录
+
+WORKDIR /path/to/workdir/in/container
+VOLUME：授权访问从容器内到主机上的目录
+
+VOLUME ["/data"]
+
+TensorFlow 简介
+是一个使用数据流图进行数值计算的开放源代码软件库。
+图中的节点代表数学运算，而图中的边则代表在这些节点之间传递的多维数组（张量）。借助这种灵活的架构，您可以通过一个 API 将计算工作部署到桌面设备、服务器或移动设备中的一个或多个 CPU 或 GPU。旨在用于进行机器学习和深度神经网络研究。
+
+使用 Docker 安装 TensorFlow
+启动一个包含了 TensorFlow 二进制映像的 Docker 容器。
+$ docker run -it -p hostPort:containerPort TensorFlowImage
+
+gcr.io 是 Google Container Registry。dockerhub 上也提供了一些 TensorFlow 镜像。Docker 将在您第一次启动 TensorFlow 二进制映像时下载该镜像。
+docker run -it gcr.io/tensorflow/tensorflow bash
+
+以下命令也可在 Docker 容器中启动一个 TensorFlow CPU 二进制映像。但是，在这个 Docker 容器里，您可以在 Jupyter Notebook 中运行 TensorFlow 程序：
+
+$ docker run -it -p 8888:8888 gcr.io/tensorflow/tensorflow
+这里我通过浏览器在 Jupyter Notebook 中正常运行了上面的代码。

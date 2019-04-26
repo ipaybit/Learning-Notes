@@ -1,0 +1,3 @@
+Python 标准数据库接口为 Python DB-API，Python DB-API为开发人员提供了数据库应用编程接口。
+
+Python 数据库接口支持非常多的数据库，你可以选择适合你项目的数据库：

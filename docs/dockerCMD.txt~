@@ -50,4 +50,58 @@ docker search # 从registry仓库搜索镜像
 docker pull # 从仓库下载镜像到本地
 docker push # 将一个镜像push到registry仓库中
 
+进入Docker容器比较常见的几种做法如下：
 
+使用docker attach
+使用SSH
+使用nsenter
+使用exec
+一、使用docker attach进入Docker容器
+　　Docker提供了attach命令来进入Docker容器。
+
+
+　　接下来我们创建一个守护态的Docker容器，然后使用docker attach命令进入该容器。
+
+$ sudo docker run -itd ubuntu:14.04 /bin/bash  
+
+　　然后我们使用docker ps查看到该容器信息，接下来就使用docker attach进入该容器
+
+$ sudo docker attach 44fc0f0582d9  
+docker attach命令不太适合于生产环境，平时自己开发应用时可以使用该命令。
+使用nsenter进入Docker容器
+　　在上面两种方式都不适合的情况下，还有一种比较方便的方法，即使用nsenter进入Docker容器。关于什么是nsenter请参考如下文章：
+
+https://github.com/jpetazzo/nsenter
+
+在了解了什么是nsenter之后，系统默认将我们需要的nsenter安装到主机中
+
+如果没有安装的话，按下面步骤安装即可（注意是主机而非容器或镜像）
+
+具体的安装命令如下：
+
+$ wget https://www.kernel.org/pub/linux/utils/util-linux/v2.24/util-linux-2.24.tar.gz
+$ tar -xzvf util-linux-2.24.tar.gz
+$ cd util-linux-2.24/
+$ ./configure --without-ncurses
+$ make nsenter
+$ sudo cp nsenter /usr/local/bin
+安装好nsenter之后可以查看一下该命令的使用。
+nsenter --help
+nsenter可以访问另一个进程的名称空间。所以为了连接到某个容器我们还需要获取该容器的第一个进程的PID。可以使用docker inspect命令来拿到该PID。
+
+docker inspect命令使用如下：
+
+$ sudo docker inspect --help
+可以使用docker inspect来查看该容器的详细信息。
+
+$ sudo docker inspect 44fc0f0582d9
+使用docker exec进入Docker容器
+
+　　除了上面几种做法之外，docker在1.3.X版本之后还提供了一个新的命令exec用于进入容器，这种方式相对更简单一些，下面我们来看一下该命令的使用：
+
+$ sudo docker exec --help
+
+接下来我们使用该命令进入一个已经在运行的容器
+
+$ sudo docker ps
+$ sudo docker exec -it 775c7c9ee1e1 /bin/bash
