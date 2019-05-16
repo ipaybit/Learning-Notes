@@ -4,8 +4,8 @@
 /**
  * C 语言实现的双向链表，能存储任意数据。
  *
- * @author skywang
- * @date 2013/11/07
+ * @author Kale 
+ * @date 2019/05/16
  */
 // 双向链表节点
 typedef struct tag_node 

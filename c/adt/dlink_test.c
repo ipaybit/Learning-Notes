@@ -11,8 +11,8 @@
  * (03) object_test()
  *      演示向双向链表操作“对象”。
  *
- * @author skywang
- * @date 2013/11/07
+ * @author Kale 
+ * @date 2019/05/16
  */
 
 // 双向链表操作int数据
