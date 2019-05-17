@@ -1,0 +1,57 @@
+//DLinkList.h
+#ifndef _DLINKLIST_H_
+#define _DLINKLIST_H_
+ 
+//双向链表的存储结构
+//结点中包含后继结点的地址的指针域可以理解为指向下一个结构体(结点)
+//(这里不包含数据域,是实现了 链表的api(链表的算法) 和 具体的数据分离)
+typedef struct _tag_DLinkListNode
+{
+	struct _tag_DLinkListNode *next;//指向后继的next指针
+	struct _tag_DLinkListNode *pre;//指向前驱的pre指针
+}DLinkListNode;
+ 
+//为void 再重新多取一个名字，DLinkList等价于void
+//typedef + 已有的数据类型+新的数据类型(自己取的新名字)
+typedef void DLinkList;
+ 
+ 
+//创建并且返回一个空的双向链表
+DLinkList* DLinkList_Create();
+ 
+//销毁一个双向链表list 
+void DLinkList_Destroy(DLinkList* list);
+ 
+//将一个双向链表list中的所有元素清空, 循环链表回到创建时的初始状态  
+void DLinkList_Clear(DLinkList* list);
+ 
+//返回一个双向链表list中的元素个数
+int DLinkList_Length(DLinkList* list);
+ 
+//向一个双向链表list的pos位置处插入元素
+int DLinkList_Insert(DLinkList* list, DLinkList* node, int pos);
+ 
+//获取一个双向链表list中pos位置处的元素
+DLinkListNode* DLinkList_Get(DLinkList* list, int pos);
+ 
+//删除一个双向链表list中pos位置处的元素,返回值为被删除的元素,NULL表示删除失败
+DLinkListNode* DLinkList_Delete(DLinkList* list, int pos);
+ 
+//add
+ 
+//直接指定删除双向链表中的某个数据元素
+DLinkListNode* DLinkList_DeleteNode(DLinkList* list, DLinkListNode* node);
+ 
+//将游标重置指向双向链表中的第一个数据元素
+DLinkListNode* DLinkList_SliderReset(DLinkList* list);
+ 
+//双向链表 获取当前游标指向的数据元素
+DLinkListNode* DLinkList_SliderCurrent(DLinkList* list);
+ 
+//将游标移动指向到双向链表中的下一个数据元素
+DLinkListNode* DLinkList_SliderNext(DLinkList* list);
+ 
+//将游标移动指向双向链表中的前一个数据元素
+DLinkListNode* DLinkList_SliderPre(DLinkList *list);
+ 
+#endif
